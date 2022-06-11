@@ -56,7 +56,39 @@ export default class OpenAddressHashTable {
 
     // @todo - YOU MUST DEFINE THIS METHOD
     putValue(key, item) {
+        let index = this.hashCode(key);
+        let count = 0;
+        while (count < this.length){
+            let testKVP = this.hashTable[index];
+            if(testKVP === undefined ){
+                this.hashTable[index] = new KeyValuePair(key, item);
+                this.size++;
+                return;
+            }
+            else if(testKVP.key === key){
+                this.hashTable[index].value = item;
+                return;
+            }
+            index++;
+            if(index === this.length){
+                index = 0;
+            }
+            count++    
+        }
+        let temp = [];
+        let tempLength = this.length * 2;
+        temp = this.hashTable.slice(0);
+        this.hashTable = [];
+        this.length = tempLength;
+        let numtoCopy = this.size;
+        for(let i = 0; i < numtoCopy; i++){
+            let moveKVP = temp[i];
+            let keyKVP = moveKVP.key;
+            let valueKVP = moveKVP.value;
+            this.putValue(keyKVP, valueKVP);
+        }
 
+        this.putValue(key, item);
     }
     
     toString() {
