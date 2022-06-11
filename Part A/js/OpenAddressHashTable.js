@@ -47,7 +47,23 @@ export default class OpenAddressHashTable {
     
     // @todo - YOU MUST DEFINE THIS METHOD
     getValue(key) {
-        return null;
+        let index = this.hashCode(key);
+        let count = 0;
+        while (count < this.length){
+            let testKVP = this.hashTable[index];
+            if(testKVP === undefined){
+                return null;
+            }
+            else if (testKVP.key === key){
+                return testKVP.value;
+            }
+            index++;
+            if(index === this.length){
+                index = 0;
+            }
+            count++;
+        }
+        return null;    
     }
     
     // @todo - YOU MUST DEFINE THIS METHOD
