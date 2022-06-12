@@ -104,7 +104,76 @@ export default class BinarySearchTree {
 
     // @todo - YOU MUST DEFINE THIS METHOD
     removeValue(key) {
+        let traveller = this.root;
+        let found = false;
+        while (!found){
+            console.log("key: " + key + ", traveller.key: " + traveller.key);
+            if(key.localeCompare(traveller.key) === 0){
+                if(traveller.left !== undefined){
+                    let largest = traveller.left;
+                    while(largest.right !== undefined){
+                        largest = largest.right;
+                    }
 
+                traveller.key = largest.key;
+                traveller.data = largest.data;
+
+                if(largest === largest.parent.left){
+                    largest.parent.left = largest.left;
+                }
+                else{
+                    largest.parent.right = largest.left;
+                }
+            }
+
+            else if (traveller.right !== undefined){
+                let smallest = traveller.right;
+                while (smallest.left !== undefined){
+                    smallest = smallest.left;
+                }
+
+                traveller.key = smallest.key;
+                traveller.data = smallest.data;
+
+                if(smallest === smallest.parent.right){
+                    smallest.parent.right = smallest.right;
+                }
+                else{
+                    smallest.parent.left = smallest.right;
+                }
+            }
+
+            else{
+                if(traveller === this.root){
+                    this.root = null;
+                }
+                else if(traveller === traveller.parent.left){
+                    traveller.parent.left = undefined;
+                }
+                else{
+                    traveller.parent.right = undefined;
+                }
+            }
+            this.size--;
+            found = true;
+            }
+            else if (key.localeCompare(traveller.key) === -1){
+                if (traveller.left === undefined){
+                    return;
+                }
+                else{
+                    traveller = traveller.left;
+                }
+            }
+            else{
+                if(traveller.right === undefined){
+                    return;
+                }
+                else{
+                    traveller = traveller.right;
+                }
+            }
+        }
     }
 
     toStringRecursively(traveller, level) {
