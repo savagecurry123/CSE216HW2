@@ -34,9 +34,40 @@ export default class BinarySearchTree {
         return key;
     }
 
+    putValueRecursively(key, value, testNode){
+        if(key.localeCompare(testNode.key) === -1){
+            if(testNode.left === undefined){
+                testNode.left = new Node(key, value, testNode, undefined, undefined);
+                this.size++;
+                return;
+            }
+            else{
+                this.putValueRecursively(key, value, testNode.left);
+            }
+        }
+        else if (key.localeCompare(testNode.key) === 0){
+            testNode.data = value;
+        }
+        else{
+            if(testNode.right === undefined){
+                testNode.right = new Node (key, value, testNode, undefined, undefined);
+                this.size++;
+                return;
+            }
+            else{
+                this.putValueRecursively(key, value, testNode.right);
+            }
+        }
+    }
+
     // @todo - YOU MUST DEFINE THIS METHOD
     putValue(key, value) {
-
+        if(this.root === null){
+            this.root = new Node(key, value, undefined, undefined);
+            this.size++;
+            return;
+        }
+        this.putValueRecursively(key, value, this.root);
     }
 
     // @todo - YOU MUST DEFINE THIS METHOD
